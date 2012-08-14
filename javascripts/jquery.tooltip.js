@@ -15,18 +15,19 @@
 
    $.fn.tooltip = function(settings) {
      // Configuration setup
-     config = { 
+      config = { 
        'dialog_content_selector' : 'div.tooltip_description',
-       'animation_distance' : 50,
+       'animation_distance' : 30,
        'opacity' : 0.85,
-       'arrow_left_offset' : 70,
-       'arrow_top_offset' : 50,
+       'arrow_left_offset' : 10,
+       'arrow_top_offset' : 10,
        'arrow_height' : 20,
        'arrow_width' : 20,
        'animation_duration_ms' : 300,
        'event_in':'mouseover',
        'event_out':'mouseout',
-       'hover_delay' : 0
+       'hover_delay' : 6,
+       'exit_delay' :  3000
      }; 
      if (settings) $.extend(config, settings);
 
@@ -35,13 +36,15 @@
       **/
      this.each(function() {
        var hoverTimer;
+       var exitTimer;
        $(this).bind(config.event_in,function(){
          var ele = this;
          hoverTimer = setTimeout(function() { _show(ele); }, config.hover_delay)
        })
        .bind(config.event_out,function(){
-         clearTimeout(hoverTimer);
-         _hide(this);
+       	 clearTimeout(hoverTimer);
+       	 var ele = this;
+       	 exitTimer = setTimeout(function() { _hide(ele); }, config.exit_delay)
        })
      });
           
